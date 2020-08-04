@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="grid.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-height="1012"
+     inkscape:window-width="1920"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="g869"
+     inkscape:document-units="mm"
+     inkscape:cy="439.69117"
+     inkscape:cx="303.14475"
+     inkscape:zoom="8.2937048"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     style="display:inline"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="图层 1">
+    <g
+       id="g37">
+      <rect
+         ry="1.7226921"
+         style="fill:#999999;stroke-width:0.264583"
+         id="rect20"
+         width="16.933332"
+         height="16.933332"
+         x="71.815475"
+         y="107.34524" />
+    </g>
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="图层 1 复制"
+     inkscape:groupmode="layer"
+     id="g869">
+    <g
+       style="fill:#ffffff"
+       transform="matrix(0.93750005,0,0,0.93750005,5.0307927,7.2514011)"
+       id="g867">
+      <rect
+         y="107.34524"
+         x="71.815475"
+         height="16.933332"
+         width="16.933332"
+         id="rect865"
+         style="fill:#ffffff;stroke-width:0.264583"
+         ry="1.7226921" />
+    </g>
+  </g>
+</svg>
