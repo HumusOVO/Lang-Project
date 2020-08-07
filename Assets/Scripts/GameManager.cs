@@ -1,18 +1,27 @@
+using DG.Tweening;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SerializedMonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    #region simgle
+
+    public static GameManager instance;
+
+    public void Awake()
     {
-        
+        if (instance != null)
+        {
+            Destroy(this);
+        }
+
+        instance = null;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
+
+    
 }
