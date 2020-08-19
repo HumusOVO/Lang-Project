@@ -13,71 +13,90 @@ public class SpawnGris : SerializedMonoBehaviour
     public List<Color> grisColors = new List<Color>();
     [LabelText("生成的方块")]
     public GameObject grid;
+    //生成方块待定方向
+    public int currGridDir;
 
-    float currMoveIndex;
-
-    public void Update()
+    public void SpawnNewGrid()
     {
-        if (grid != null && grid.GetComponent<Grid>().isDown)
-        {
-            grid = null;
-        }
+        currGridDir = CheckGridDir(GameManager.instance.dir);   //先通过全局方向定方块方向
+        Spawn();         //生成方块 
+        GridAnim();    //放下方块的动画
     }
 
-    // Start is called before the first frame update
-    public void Spawn(float moveIndex)      //生成一个随机颜色的方块
+    public int CheckGridDir(directions directions)        //标识方块方向
     {
-        currMoveIndex = moveIndex;
-
-        if (grid != null)     //如果存在生成的方块
+        var i = 0;
+        switch (directions)
         {
-            return;   //不生成新方块
-        }
-
-        var currColor = grisColors[Random.Range(0, grisColors.Count)];
-
-        grid = Instantiate(gridList[Random.Range(0, gridList.Count)],
-                                        transform.GetChild((int)moveIndex - 1).position,
-                                        gridList[Random.Range(0, gridList.Count)].transform.rotation);
-
-        for (int i = 0; i < 4; i++)
-        {
-            grid.transform.GetChild(1).GetChild(i).GetComponent<SpriteRenderer>().color = currColor;
-        }
-
-        //GridAnim(moveIndex);
-    }
-
-    public void GridAnim(float index)     //进场动画
-    {
-        grid.transform.position = transform.GetChild((int)index - 1).position;
-        switch (index)
-        {
-            case 1:
-                grid.transform.DOMoveY(3f, 1f).From(true).SetDelay(0.5f);
-                grid.GetComponent<Grid>().dir = Grid.directions.up;
+            case directions.up:        //主盘上
+                i = 1;                          //方块下
                 break;
-            case 2:
-                grid.transform.DOMoveY(-3f, 1f).From(true).SetDelay(0.5f);
-                grid.GetComponent<Grid>().dir = Grid.directions.down;
+            case directions.down:   //主盘下
+                i = 0;                         //方块上
                 break;
-            case 3:
-                grid.transform.DOMoveX(-2f, 1f).From(true).SetDelay(0.5f);
-                grid.GetComponent<Grid>().dir = Grid.directions.right;
+            case directions.left:      //主盘左
+                i = 3;                         //方块右
                 break;
-            case 4:
-                grid.transform.DOMoveX(2f, 1f).From(true).SetDelay(0.5f);
-                grid.GetComponent<Grid>().dir = Grid.directions.left;
+            case directions.right:   //主盘右
+                i = 2;                         //方块左
                 break;
-
             default:
                 break;
         }
+        return i;
+    }
 
-        if (grid != null)
+    public void Spawn()      //生成一个随机颜色的方块
+    {
+        if (GameManager.instance.grid == null || GameManager.instance.grid.GetComponent<Grid>().isGround)     //如果不存在生成的方块或已生成的方块已落地
         {
-            grid.GetComponent<Grid>().IsMove = true;
+            //开始生成方块
+            var currColor = grisColors[Random.Range(0, grisColors.Count)];       //定随机颜色
+
+            grid = Instantiate(gridList[Random.Range(0, gridList.Count)],
+                                            transform.GetChild(currGridDir).position,
+                                            gridList[Random.Range(0, gridList.Count)].transform.rotation);      //生成新方块
+
+            for (int i = 0; i < 4; i++)     //给每个格子上色
+            {
+                grid.transform.GetChild(i).GetComponent<SpriteRenderer>().color = currColor;
+            }
+            grid.GetComponent<Grid>().gdDir = (gridDirections)currGridDir;                  //给方块标记位置
+            GameManager.instance.grid = grid;     //记录给GM
         }
+    }
+
+    public void GridAnim()     //进场动画
+    {
+        grid.transform.position = transform.GetChild(currGridDir).position;     //确定方块位置
+
+        switch (grid.GetComponent<Grid>().gdDir)       //照方块方向播动画
+        {
+            case gridDirections.gdUp:
+                Tweener tweener1 = grid.transform.DOMoveY(12f, 1f).From(true).SetDelay(0.5f);//进场动画
+                tweener1.OnComplete(GridIsMove);
+                break;
+            case gridDirections.gdDown:
+                Tweener tweener2 = grid.transform.DOMoveY(-17f, 1f).From(true).SetDelay(0.5f);
+                tweener2.OnComplete(GridIsMove); //动画播完后允许方块运动
+                break;
+            case gridDirections.gdLeft:
+                Tweener tweener3 = grid.transform.DOMoveX(-7.1f, 1f).From(true).SetDelay(0.5f);
+                tweener3.OnComplete(GridIsMove);
+
+                break;
+            case gridDirections.gdRight:
+                Tweener tweener = grid.transform.DOMoveX(7.6f, 1f).From(true).SetDelay(0.5f);
+                tweener.OnComplete(GridIsMove);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void GridIsMove()      //动画执行后执行
+    {
+        grid.GetComponent<Grid>().IsMove = true;     //移动完把方块的移动允许打开
     }
 
 }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Frame
+  - Grid
+  - Ground
+  - simGrid
   layers:
   - Default
   - TransparentFX
@@ -16,8 +19,8 @@ TagManager:
   - 
   - Frame
   - Grid
-  - 
-  - 
+  - Ground
+  - simGrid
   - 
   - 
   - 
