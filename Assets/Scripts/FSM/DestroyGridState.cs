@@ -1,38 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class DestroyGridState : EasePotralState
 {
     public override void EnterPotral(GameManager gm)
     {
         gm.isDesGrid = true;    //告知GM开始进行删除
-        //判断要打开的判断obj
-        if (gm.dir == directions.up || gm.dir == directions.down)
-        {
-            gm.leftRightGridDesCheck.SetActive(false);
-            gm.upDownGridDesCheck.SetActive(true);
-            gm.currGridDesCheck = gm.upDownGridDesCheck;
-        }
-        else if (gm.dir == directions.left || gm.dir == directions.right)
-        {
-            gm.leftRightGridDesCheck.SetActive(true);
-            gm.upDownGridDesCheck.SetActive(false);
-
-            gm.currGridDesCheck = gm.leftRightGridDesCheck;
-        }
     }
 
     public override void OnFixedUpdate(GameManager gm)
     {
-
+        for (int i = 0; i < gm.currGridDesCheck.transform.childCount; i++)          //循环消除组件下的子物体
+        {
+            gm.currGridDesCheck.transform.GetChild(i).GetComponent<CheckPhyCountRay>().CheckPointRay();      //告知生成射线判断
+        }
     }
 
     public override void OnUpdate(GameManager gm)
     {
-        for (int i = 0; i < gm.currGridDesCheck.transform.childCount; i++)
+        for (int i = 0; i < gm.currGridDesCheck.transform.childCount; i++)      //循环消除组件下的子物体
         {
-            gm.currGridDesCheck.transform.GetChild(i).GetComponent<CheckPhyCount>().CheckDesGrid();
+            gm.currGridDesCheck.transform.GetChild(i).GetComponent<CheckPhyCountRay>().DrawCheckLink();        //告知进行消除判断
         }
     }
 

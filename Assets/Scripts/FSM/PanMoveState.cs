@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class PanMoveState : EasePotralState
 {
     public override void EnterPotral(GameManager gm)
     {
-        gm.ResetColl();      //一开始移动主盘就先复原四周的边界
+        CheckSpawn();   //确定生成方块的区域
     }
 
     public override void OnFixedUpdate(GameManager gm)
@@ -17,22 +14,42 @@ public class PanMoveState : EasePotralState
             //对已落下的方块进行轴向冻结
             foreach (var item in gm.grids)
             {
-                if (GameManager.instance.dir == directions.up || GameManager.instance.dir == directions.down)
+                if (gm.dir == directions.up || gm.dir == directions.down)    //如果方向是上下
                 {
                     item.GetComponent<Rigidbody2D>().constraints = ~RigidbodyConstraints2D.FreezePositionY;
                 }
-                else if (GameManager.instance.dir == directions.left || GameManager.instance.dir == directions.right)
+                else if (gm.dir == directions.left || gm.dir == directions.right)     //如果方向是左右
                 {
                     item.GetComponent<Rigidbody2D>().constraints = ~RigidbodyConstraints2D.FreezePositionX;
                 }
-                //给方块一个向底面的力
-                item.GetComponent<Rigidbody2D>().AddForce(gm.powerDir * gm.gridMovePower);
             }
+            gm.TransState(gm.destroyState);        //移动完后做一次消除判断
         }
     }
 
     public override void OnUpdate(GameManager gm)
     {
 
+    }
+
+    public void CheckSpawn()    //确定生成方块的区域
+    {
+        switch (GameManager.instance.dir)        //用整体方向定位
+        {
+            case directions.up:
+                GameManager.instance.spawnGridPoint = GameManager.instance.spawnDownPoint;
+                break;
+            case directions.down:
+                GameManager.instance.spawnGridPoint = GameManager.instance.spawnUpPoint;
+                break;
+            case directions.left:
+                GameManager.instance.spawnGridPoint = GameManager.instance.spawnRightPoint;
+                break;
+            case directions.right:
+                GameManager.instance.spawnGridPoint = GameManager.instance.spawnLeftPoint;
+                break;
+            default:
+                break;
+        }
     }
 }

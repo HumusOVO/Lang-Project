@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public abstract class EasePotralState
 {
     public abstract void EnterPotral(GameManager gm);      //开始时执行的方法
